@@ -11,16 +11,17 @@ int main (int argc, char **argv)
     int size = 10;
     args.log_size = &size;
 
-    int result = ebpf_verify_load_program(&args, clt);
+    ebpf_result_t *result = ebpf_verify_load_program(&args, clt);
 
-    if (result != 0)
+    int iresult = (int)*(result);
+    if (result != EBPF_SUCCESS)
     {
-        printf("ERROR: status code is %i\n", result);
+        printf("ERROR: status code is %i\n", iresult);
     }
     else
     {
         printf("Done sending the request\n");
     }
 
-    return result;
+    return iresult;
 }

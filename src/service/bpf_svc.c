@@ -1,13 +1,11 @@
 #include "../prototypes/bpf_svc.h"
 
-int result;
-int * ebpf_verify_load_program_1_svc(ebpf_verify_arg *args, struct svc_req *req)
+ebpf_result_t result;
+ebpf_result_t* ebpf_verify_load_program_1_svc(ebpf_verify_arg *args, struct svc_req *req)
 {
-    result = 0;
-    if (!args)
+    if (!args || args->info->instruction_count == 0)
     {
-        printf("Arguments are empty\n");
-        result = -1;
+        result = EBPF_INVALID_ARGUMENT;
         return &result;
     }
 
